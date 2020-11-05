@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { ThemeContext } from "../Context/ThemeContext";
 import { TodoContext } from "../Context/TodoContext";
 
 export default function Todo({ todo }) {
@@ -21,9 +22,23 @@ export default function Todo({ todo }) {
   const tndString = `${todo.tnd.getDate()} ${
     months[todo.tnd.getMonth()]
   }, ${todo.tnd.getHours()}:${todo.tnd.getMinutes()}`;
+  const { isNightModeOn, lightTheme, darkTheme } = useContext(ThemeContext);
+  const theme = isNightModeOn ? darkTheme : lightTheme;
   return (
-    <div className="todo-card">
-      <div className="todo-head">
+    <div
+      className="todo-card"
+      style={{
+        boxShadow: `${
+          isNightModeOn ? "0px 0px 3px white" : "0px 0px 10px red"
+        }`,
+      }}
+    >
+      <div
+        className="todo-head"
+        style={{
+          backgroundColor: theme.main,
+        }}
+      >
         <p className="date">{tndString}</p>
         <i
           className="fas fa-times"
@@ -31,7 +46,7 @@ export default function Todo({ todo }) {
         ></i>
       </div>
       <div className="todo-body">
-        <p class="todo-text">{todo.text}</p>
+        <p className="todo-text">{todo.text}</p>
       </div>
     </div>
   );
